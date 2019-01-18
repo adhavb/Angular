@@ -18,8 +18,7 @@ export class AppComponent {
   };
   title = 'angulartemplatedrivenform';
   signup(data){
-    alert(data.name);
-    alert(data.phone);
+    alert(data.name);    
     alert(JSON.stringify(data));
   }
 }
