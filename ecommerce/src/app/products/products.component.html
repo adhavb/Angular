@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-md-3">
+    <div class="list-group sticky-top">
+      <a class="list-group-item list-group-item-action" routerLink="/products" [queryParams]="{ category: 'all' }"
+        [class.active]="'all' == categoryid">All</a>
+      <a class="list-group-item list-group-item-action" routerLink="/products"
+        *ngFor="let category of categories | async" [queryParams]="{ category: category.ctgryId }"
+        [class.active]="category.ctgryId == categoryid">
+        {{ category.ctgryName }}</a>
+    </div>
+  </div>
+  <div class="col">
+    <div class="row">
+      <ng-container *ngFor="let product of products; index as i">
+        <div class="col-md-6" *ngIf="
+            !categoryid || categoryid == 'all' || product.category == categoryid
+          ">
+          <div class="card" style="width: 17rem; height: 23rem;">
+            <img [src]="product.imageUrl" class="card-img-top" style="width: 17rem; height: 15rem;" />
+            <div class="card-body">
+              <h5 class="card-title">{{ product.title }}</h5>
+              <p class="card-text">
+                {{ product.price | currency: "USD" }}<br>
+                <ng-container *ngFor='let cart of carts'>
+                  <ng-container *ngIf='product.id === cart.productid'>{{cart.quantity}} item(s)
+                    in cart
+                  </ng-container>
+                </ng-container>
+              </p>
+            </div>
+            <div class="card-footer">
+              <!--button class="btn btn-primary btn-block" [routerLink]="['/products/productdetails/',product.id]"
+                [queryParams]="{'quantity':getQuantity(product.id)}" (click)="viewDetails(product.id)">View
+                Details</button-->
+              <button class="btn btn-primary btn-block" (click)="viewProductDetails(product.id)">View
+                Details</button>
+            </div>
+          </div>
+          <div class="w-100" *ngIf="(i + 1) % 2 === 0"><br /><br /></div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

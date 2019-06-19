@@ -1,0 +1,69 @@
+<div class="row">
+  <div class="col-md-6">
+    <form #productform="ngForm" (ngSubmit)="save(productform.value)">
+      <div class="container">
+        <div class="form-group">
+          <label for="title">Title : </label>
+          <input ngModel name="title" id="title" type="text" class="form-control" #title="ngModel" required
+            [(ngModel)]="product.title" />
+          <div class="alert alert-danger" *ngIf="title.touched && title.invalid">
+            Title is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price: </label>
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+            <input ngModel name="price" id="price" type="text" class="form-control" #price="ngModel" required [min]=0
+              [(ngModel)]="product.price" />
+          </div>
+          <div class="alert alert-danger" *ngIf="price.touched && price.invalid">
+            <div *ngIf="price.errors.required">Price is required</div>
+            <div *ngIf="price.errors.min">Price should be greater than 0</div>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="price">Category: </label>
+          <select ngModel name="category" id="category" class="form-control" #category="ngModel" required
+            [(ngModel)]="product.category">
+            <option value=''></option>
+            <option *ngFor="let c of categories" [value]="c.ctgryId">{{c.ctgryName}}
+            </option>
+          </select>
+          <div class="alert alert-danger" *ngIf="category.touched && category.invalid">
+            Category is required
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="imageurl">Image URL : </label>
+          <input ngModel name="imageurl" id="imageurl" type="url" class="form-control" #imageurl="ngModel" required
+            pattern="https?://.+" [(ngModel)]="product.imageUrl" />
+          <div class="alert alert-danger" *ngIf="imageurl.touched && imageurl.invalid">
+            <div *ngIf="imageurl.errors.required">URL is required</div>
+            <div *ngIf="imageurl.errors.pattern">URL is not valid</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" *ngIf="!product.id">Save</button>
+        <button type="button" class="btn btn-primary" *ngIf="product.id"
+          (click)="update(productform.value,product.id)">Update</button>
+        &nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-danger" [routerLink]="['/admin/products']">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-6" *ngIf="imageurl.value">
+    <div class="card" style="width: 18rem;">
+      <img [src]="imageurl.value" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">{{title.value}}</h5>
+        <p class="card-text">{{price.value | currency:'USD':symbol}}</p>
+      </div>
+    </div>
+  </div>
+</div>

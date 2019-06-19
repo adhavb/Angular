@@ -1,0 +1,59 @@
+<h3>Shopping Cart</h3>
+<ng-container>
+  <div class="container row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">You have <b>{{itemCount}}</b> items in shopping cart</div>
+
+    <div class="col-md-4">
+      <ng-container *ngIf='carts.length'>
+        <button class="btn btn-danger m-1" (click)="clearCart()">Clear Cart</button>
+        <button class="btn btn-primary m-1">Check Out</button>
+      </ng-container>
+    </div>
+
+
+  </div>
+  <br>
+  <ng-container *ngIf='carts.length'>
+    <table class="table container" style="width:800px;">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody *ngFor='let cart of carts'>
+        <tr>
+          <td style="width: 200px;">{{getProductName(cart.productid)}}</td>
+          <td style="width: 500px;" class="float-center">
+            <div class="input-group col-lg-8">
+              <div class="input-group-prepend">
+                <button type="button" class="btn btn-outline-secondary btn-sm"
+                  (click)="decreaseQuantity(cart)">-</button>
+              </div>
+              <input type=" text" class="form-control text-center" readonly value="{{cart.quantity}}">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-outline-secondary btn-sm"
+                  (click)="increaseQuantity(cart)">+</button>
+              </div>
+            </div>
+          </td>
+          <td style=" width: 500px;">{{cart.price | currency:'USD'}}
+          </td>
+          <td style="width: 500px;">{{cart.price * cart.quantity | currency:'USD'}}</td>
+
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th>{{totalPrice | currency:'USD'}}</th>
+        </tr>
+      </tfoot>
+    </table>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,47 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-3">
+      <h4>Product Details</h4>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary float-right m-1" routerLink='/home'>Back to Products</button>
+      <ng-container *ngIf='updatedQuantity == 0; else updatecart'>
+        <button class="btn btn-primary float-right m-1" (click)="addToCart(product)">Add to Cart</button>
+      </ng-container>
+      <ng-template #updatecart>
+        <button class="btn btn-primary float-right m-1" (click)="updateCart(product)" [disabled]="!disableButton">Update
+          Cart</button>
+        <button class="btn btn-primary float-right m-1" (click)="deleteCart(product)">Delete</button>
+      </ng-template>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-3"><img [src]='product.imageUrl' class="card-img-top" style="width: 8rem; height: 8rem;" />
+    </div>
+    <div class="col-md-3"><b>{{product.title}}</b><br>Rating<br>Source</div>
+    <div class="col-md-3">{{product.price | currency:"USD"}}</div>
+    <div class="col-md-3">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <button type="button" class="btn btn-outline-secondary" (click)="decreaseQuantity()">-</button>
+        </div>
+        <input type="text" class="form-control text-center" readonly value="{{quantity}} in cart">
+        <div class="input-group-append">
+          <button type="button" class="btn btn-outline-secondary" (click)="increaseQuantity()">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-3"></div>
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <h5>Total: {{total|currency:"USD"}}</h5>
+    </div>
+  </div>
+  <hr>
+</div>
