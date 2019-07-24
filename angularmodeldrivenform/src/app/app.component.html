@@ -1,0 +1,67 @@
+<div class="container">
+  <!-- Nav pills -->
+  <ul class="nav nav-pills justify-content-center">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="pill" routerLink='resetpassword'>Reset Password</a>
+    </li>   
+  </ul>
+  </div>
+  
+<form novalidate [formGroup] = "user" (ngSubmit) = "onSubmit(user)">
+  {{user.value | json}}
+  {{user.invalid}}
+  <div
+  class="error"
+  *ngIf="user.get('name').hasError('required') && user.get('name').touched">
+  Name is required
+</div>
+<div
+  class="error"
+  *ngIf="user.get('account').get('email').hasError('required') && user.get('account').get('email').touched">
+  email is required
+</div>
+<div
+  class="error"
+  *ngIf="user.get('account').get('email').hasError('pattern') && user.get('account').get('email').touched">
+  email is not valid
+</div>
+<div
+  class="error"
+  *ngIf="user.get('account').get('confirm').hasError('required') && user.get('account').get('confirm').touched">
+  Confirm email is required
+</div>
+<div
+  class="error"
+  *ngIf="user.get('name').hasError('minlength') && user.get('name').touched">
+  Minimum of 2 characters
+</div>
+  <br/>
+  <label>
+    <span>Full name</span>
+    <input
+      type="text"
+      name="name"
+      placeholder="Your full name"
+      formControlName = "name">
+  </label>
+  <div formGroupName = "account">
+    <label>
+      <span>Email address</span>
+      <input
+        type="email"
+        name="email"
+        placeholder="Your email address"
+        formControlName = "email">
+    </label>
+    <br/>
+    <label>
+      <span>Confirm address</span>
+      <input
+        type="email"
+        name="confirm"
+        placeholder="Confirm your email address"
+        formControlName = "confirm">
+    </label>
+  </div>
+  <button type="submit" [disabled]="user.invalid">Sign up</button>
+</form>
